@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+body
+{
+background-color:red;
+}
+#maindiv
+	{
+		display:grid;
+		grid-template-columns: 20% 80%;
+		height: 0px;
+	}
+#SidebarDiv
+{
+	height: 100%;
+ 	width: 100%;
+    background-color: #DDD; 
+    font-size: 30px;
+    text-align: center;
+    overflow-y: scroll;
+    
+}
+#pokemoncontainer
+{
+    
+	background-color: red;
+	border-radius: 30%;
+	display:grid;
+	grid-template-columns:10% 80% 10%;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+#pokeContainerMain
+{
+background-color: #e6e6e6;
+border:40px solid black;
+padding-bottom: 0%;
+margin-bottom: 0%;
+}
+#Image
+{
+padding-top: 10%;
+width: 50%;
+height: 50%;
+}
+.botao1{width:100%;height: 100%;color:white;background-color: black;font-size: 60px;border:none;border-radius: 30% 0% 0% 30%;}
+.botao2{width:100%;height: 100%;color:white;background-color: black;font-size: 60px;border:none;border-radius: 0% 30% 30% 0%;}
+#PokeImage
+{
+width: 100%;
+height: 60%;
+background-position: center;
+background-repeat: no-repeat;
+background-size: 55% 60%;
+background-color: #e6e6e6;
+background-image:url("Pokeball.png");
+}
+#name
+{
+	text-align: center;
+	padding: 15px;
+	border-radius: 50%;
+	background-color: #800000;
+	color:white;
+	font-size: 45px;
+	width: 30%;
+	margin-left: 35%;
+	margin-top: 2%;
+}
+#content
+{
+	text-align: center;
+	font-size: 30px;
+}
+#Descript{background-color:#800000 ;width: 100%;height: 1%;padding: 0%;margin: 0%;}
+#texto{color:white;font-size: 35px;background-color:#800000;padding: 0%;margin: 0%; }
+#texto2{color:white;font-size: 35px;background-color:#800000;padding: 0%;margin: 0%; }
+#texto3{color:white;font-size: 35px;background-color:#800000;padding: 0%;margin: 0%; }
+#Master
+{
+width: 10%;
+height: 3%;
+}
+#trainer1
+{
+	padding-top: 5%;
+	width: 70%;
+	height: 70%;
+}
+#trainer2
+{
+    padding-top: 5%;
+	width: 70%;
+	height: 70%;
+}
+#headerdiv{display:grid;grid-template-columns: 32% 36% 32%;}
+#paragrafo5{text-align: center;font-weight:bold;font-size: 30px;color: white;background-color:#800000;padding:0%;margin: 0%;}
+	</style>
+
+
+<link rel="shortcut icon" href="file:MasterBall.png" />
+</head>
+<body onload="PokemonImage()">
+
+<header style="text-align: center;">
+<div id="headerdiv">
+<div><img id="trainer1" src="AshPikachu.png"></div>
+
+<div>
+	<p style="text-align: center;font-size: 150px;color:purple;font-style: italic;-webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: white";font-weight: bold><img id="Master" src=MasterBall.png>Pokedex</p>
+<label style="font-size: 50px;color:white">Entre com a entrada na pokedex do pokemon:</label><br>
+<input id="Entrada" style="font-size: 40px;" type="text"><input type="reset" style="font-size: 40px;" onclick="ChangePoke()" value="Clique">
+</div>
+
+<div><img id="trainer2" src="RedCharizard.png"></div>
+
+</header>
+</div>
+<div id="maindiv">
+
+<div id="SidebarDiv">
+
+</div>
+
+<div id="pokemoncontainer">
+<div style="background-color: red;"><button class="botao1" onclick="Minus()"><</button> </div>
+
+<div id="pokeContainerMain">
+	<div id="name"><br>bulbasaur<br><br></div>
+	<div id="PokeImage"></div>
+	<div id="Descript"><p id="texto">A strange seed was planted on its back at birth.The plant sprouts and grows with this POKéMON.</p><p id="paragrafo5" >Tipos:</p> <p id="texto2">grass</p><p id="texto3">poison</p></div>
+</div>
+
+<div style="background-color: red;"><button class="botao2" onclick="Plus()">></button></div>
+ </div>
+
+</div>
+
+</div>
+<script type="text/javascript">
+let i=1;
+
+let Table=document.getElementById('SidebarDiv');
+let Name=document.getElementById('name');
+let Descricao=document.getElementById('texto');
+let Tipo=document.getElementById('texto2');
+let Tipo2=document.getElementById('texto3');
+function FetchInfo()
+{
+ console.log("Testezinho"+i);
+ fetch(" https://pokeapi.co/api/v2/pokemon-species/"+i+"/" , {
+				  method: "GET",
+				  headers: {"Content-type": "application/json;charset=UTF-8"}
+				})
+				.then(response => response.json()) 
+				.then(text => WriteData2(text)) 
+				.catch(erro => console.log(erro));
+				
+}
+
+function FetchData()
+{
+	console.log("Oi");   
+ fetch('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151', {
+				  method: "GET",
+				  headers: {"Content-type": "application/json;charset=UTF-8"}
+				})
+				.then(response => response.json()) 
+				.then(text => WriteData(text)) 
+				.catch(erro => console.log(erro));
+}
+
+function  FetchType()
+{
+	fetch("https://pokeapi.co/api/v2/pokemon/"+i, {
+				  method: "GET",
+				  headers: {"Content-type": "application/json;charset=UTF-8"}
+				})
+				.then(response => response.json()) 
+				.then(text => WriteData3(text)) 
+				.catch(erro => console.log(erro));
+}
+
+function WriteData(json)
+{
+
+Name.innerHTML=json.results[i-1].name;
+
+
+for(let x=0;x<151;x++)
+{
+Table.innerHTML+="<p><button id=\"content\" onclick=\"ChangePoke()\">"+"#0"+(x+1)+":"+json.results[x].name;+"</button></p> "
+}
+
+}
+
+function WriteData2(json)
+{
+console.log(json);
+Descricao.innerHTML=json.flavor_text_entries[3].flavor_text;
+}
+
+function WriteData3(json)
+{
+
+Tipo.innerHTML=json.types[0].type.name;
+Tipo2.innerHTML=json.types[1].type.name ;
+
+}
+
+function ChangePoke()
+{
+console.log("Testandinho")
+let Entry=document.getElementById('Entrada').value;
+i=Entry;
+PokeImage=document.getElementById('PokeImage');
+let Image="<img id=\"Image\" src=\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+i+".png\">";
+PokeImage.innerHTML=Image;
+Tipo2.innerHTML=" ";
+FetchData();
+FetchInfo();
+FetchType();
+
+}
+
+function PokemonImage()
+{
+FetchData();
+FetchInfo();
+FetchType()
+PokeImage=document.getElementById('PokeImage');
+let Image="<img id=\"Image\" src=\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+i+".png\">";
+PokeImage.innerHTML=Image;
+}
+
+function Plus()
+{
+i++;
+PokeImage=document.getElementById('PokeImage');
+let Image="<img id=\"Image\" src=\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+i+".png\">";
+PokeImage.innerHTML=Image;
+Tipo2.innerHTML=" ";
+FetchData();
+FetchInfo();
+FetchType();
+}
+
+function Minus()
+{
+i--;
+Tipo2.innerHTML="";
+PokeImage=document.getElementById('PokeImage');
+let Image="<img id=\"Image\" src=\"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+i+".png\">";
+PokeImage.innerHTML=Image;
+FetchData();
+FetchInfo();
+FetchType()
+}
+</script>
+
+
+
+
+</body>
+</html>
